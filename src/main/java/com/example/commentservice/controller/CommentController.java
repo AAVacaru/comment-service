@@ -13,7 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/comment-service/blogs/")
+@RequestMapping("/comment-service/blogs")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CommentController {
 
     private CommentService commentService;
@@ -32,9 +33,14 @@ public class CommentController {
     }
 
     @GetMapping("/comments/{commentId}")
-    public ResponseEntity<Comment> getAllCommentsById(@PathVariable Long commentId) {
+    public ResponseEntity<Comment> getCommentById(@PathVariable Long commentId) {
         Comment comment = commentService.findById(commentId);
         return new ResponseEntity<>(comment, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public void deleteComment(@PathVariable Long commentId) {
+        commentService.deleteById(commentId);
     }
 
 }
